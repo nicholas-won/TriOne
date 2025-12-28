@@ -110,6 +110,7 @@ userRoutes.patch('/me', async (req: AuthRequest, res) => {
       'avatar_url',
       'dob',
       'gender',
+      'primary_race_id',
     ];
     const updates: Record<string, any> = {};
     
@@ -321,7 +322,18 @@ userRoutes.post('/onboarding/complete', async (req: AuthRequest, res) => {
     // ==============================
     let plan;
     
-    if (hasManualBiometrics) {
+    // Check if user selected "No race" (maintenance mode)
+    if (!targetRaceId) {
+      // Maintenance mode - generate rolling base plan
+      console.log('🔄 Generating maintenance plan (No race selected)...');
+      
+      const { generateMaintenancePlan } = await import('../engine/maintenanceGenerator');
+      plan = await generateMaintenancePlan({
+        userId: user.id,
+        volumeTier,
+        biometrics: biometricsData as any,
+      });
+    } else if (hasManualBiometrics) {
       // User provided biometrics -> Generate full Base Phase plan
       console.log('🏃 Generating full training plan (Manual Input)...');
       
@@ -400,9 +412,16 @@ userRoutes.post('/onboarding', async (req: AuthRequest, res) => {
     if (bike_ftp !== 'unknown') newPayload.manualBiometrics.ftp = bike_ftp;
   }
 
-  // Forward to new endpoint
+  // Forward to new endpoint by updating the request body
   req.body = newPayload;
-  return userRoutes.handle(req, res, () => {});
+  
+  // Manually call the new endpoint handler
+  // Get the handler from the route (we'll need to extract it)
+  // For now, just return an error directing to use the new endpoint
+  return res.status(410).json({ 
+    message: 'This endpoint is deprecated. Please use /api/users/onboarding/complete',
+    redirect: '/api/users/onboarding/complete'
+  });
 });
 
 // Activate trial

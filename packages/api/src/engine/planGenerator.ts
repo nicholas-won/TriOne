@@ -354,9 +354,13 @@ export async function generateTrainingPlan(params: PlanGenerationParams): Promis
             currentDate.toISOString().split('T')[0],
             dayPlan.priority,
             biometrics,
-            phaseInfo.phase,
-            phaseConfig.intensityModifier
+            phaseInfo.phase
           );
+          
+          // Apply intensity modifier
+          if (workout.intensity_scalar !== undefined) {
+            workout.intensity_scalar = phaseConfig.intensityModifier;
+          }
           workouts.push(workout);
         } else {
           // Create a placeholder workout if no template found
@@ -470,11 +474,24 @@ function createPlaceholderWorkout(
     intervals: 'Intervals',
   };
   
+  // Skip rest days - they don't create workouts
+  if (dayPlan.type === 'rest') {
+    return {
+      id: uuid(),
+      plan_id: planId,
+      scheduled_date: date,
+      workout_type: 'swim' as const, // Placeholder, won't be used
+      priority_level: 3,
+      status: 'planned' as const,
+      is_calibration_test: false,
+    };
+  }
+  
   return {
     id: uuid(),
     plan_id: planId,
     scheduled_date: date,
-    workout_type: dayPlan.type,
+    workout_type: dayPlan.type as 'swim' | 'bike' | 'run' | 'strength' | 'brick',
     priority_level: dayPlan.priority,
     status: 'planned',
     is_calibration_test: false,

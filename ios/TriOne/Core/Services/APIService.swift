@@ -30,6 +30,16 @@ class APIService: ObservableObject {
         _ = try await patch(endpoint: "/api/users/me", body: body)
     }
     
+    func updatePrimaryRace(raceId: String?) async throws {
+        var body: [String: Any] = [:]
+        if let raceId = raceId {
+            body["primary_race_id"] = raceId
+        } else {
+            body["primary_race_id"] = NSNull()
+        }
+        _ = try await patch(endpoint: "/api/users/me", body: body)
+    }
+    
     func completeOnboarding(
         goalDistance: String,
         raceId: String?,
@@ -112,6 +122,10 @@ class APIService: ObservableObject {
         }
         
         return try JSONDecoder().decode(PlanResponse.self, from: data)
+    }
+    
+    func fetchActivePlan() async throws -> PlanResponse? {
+        return try await getActivePlan()
     }
     
     // MARK: - Social Endpoints
@@ -205,6 +219,17 @@ class APIService: ObservableObject {
             endpoint += "?date=\(formatter.string(from: date))"
         }
         
+        let data = try await get(endpoint: endpoint)
+        return try JSONDecoder().decode([WorkoutResponse].self, from: data)
+    }
+    
+    func fetchWorkouts(startDate: Date, endDate: Date) async throws -> [WorkoutResponse] {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate]
+        let startString = formatter.string(from: startDate)
+        let endString = formatter.string(from: endDate)
+        
+        let endpoint = "/api/workouts?start=\(startString)&end=\(endString)"
         let data = try await get(endpoint: endpoint)
         return try JSONDecoder().decode([WorkoutResponse].self, from: data)
     }

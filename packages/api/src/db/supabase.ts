@@ -86,15 +86,16 @@ export interface DbTrainingPlan {
   id: string;
   user_id: string;
   name: string;
-  race_date: string;
+  race_date: string | null; // Nullable for maintenance plans
   start_date: string;
   race_distance_type: 'sprint' | 'olympic' | '70.3' | '140.6';
   status: 'active' | 'completed' | 'archived';
-  race_id?: string;
+  race_id?: string | null;
+  plan_type?: 'race_prep' | 'maintenance'; // New field for plan type
   // New phase tracking fields
   current_phase: TrainingPhase;
   current_week: number;
-  total_weeks?: number;
+  total_weeks?: number | null; // Nullable for maintenance (infinite)
   volume_tier: 1 | 2 | 3;
 }
 

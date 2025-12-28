@@ -28,6 +28,7 @@ struct CalibrationView: View {
                 }
                 .padding(.horizontal, 24)
             }
+            .scrollIndicators(.hidden)
             
             continueButton
         }
@@ -84,6 +85,7 @@ struct CalibrationView: View {
             TextField("2", text: $swimMinutes)
                 .frame(width: 50)
                 .multilineTextAlignment(.center)
+                .keyboardType(.numberPad)
                 .disabled(swimUnknown)
             
             Text(":")
@@ -92,6 +94,7 @@ struct CalibrationView: View {
             TextField("00", text: $swimSeconds)
                 .frame(width: 50)
                 .multilineTextAlignment(.center)
+                .keyboardType(.numberPad)
                 .disabled(swimUnknown)
             
             Text("/ 100m")
@@ -117,6 +120,7 @@ struct CalibrationView: View {
             TextField("25", text: $runMinutes)
                 .frame(width: 50)
                 .multilineTextAlignment(.center)
+                .keyboardType(.numberPad)
                 .disabled(runUnknown)
             
             Text(":")
@@ -125,6 +129,7 @@ struct CalibrationView: View {
             TextField("00", text: $runSeconds)
                 .frame(width: 50)
                 .multilineTextAlignment(.center)
+                .keyboardType(.numberPad)
                 .disabled(runUnknown)
         }
     }

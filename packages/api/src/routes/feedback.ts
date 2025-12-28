@@ -70,7 +70,7 @@ feedbackRoutes.post('/', async (req: AuthRequest, res) => {
     }
 
     // Process feedback through adaptation engine
-    await processFeedback(user.id, rating);
+    await processFeedback(user.id, req.params.id, rating);
 
     res.json(feedback);
   } catch (error) {

@@ -11,6 +11,12 @@ struct BaselinesSettingsView: View {
     @State private var runSeconds = ""
     @State private var showSaveSuccess = false
     
+    @FocusState private var focusedField: Field?
+    
+    enum Field {
+        case swimMinutes, swimSeconds, bikeFTP, runMinutes, runSeconds
+    }
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -38,6 +44,8 @@ struct BaselinesSettingsView: View {
                         TextField("2", text: $swimMinutes)
                             .frame(width: 60)
                             .multilineTextAlignment(.center)
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .swimMinutes)
                         
                         Text(":")
                             .foregroundStyle(Theme.textMuted)
@@ -45,6 +53,10 @@ struct BaselinesSettingsView: View {
                         TextField("00", text: $swimSeconds)
                             .frame(width: 60)
                             .multilineTextAlignment(.center)
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .swimSeconds)
+                        
+                        Spacer()
                         
                         Text("min/100m")
                             .foregroundStyle(Theme.textMuted)
@@ -63,6 +75,9 @@ struct BaselinesSettingsView: View {
                             .frame(width: 80)
                             .multilineTextAlignment(.center)
                             .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .bikeFTP)
+                        
+                        Spacer()
                         
                         Text("watts")
                             .foregroundStyle(Theme.textMuted)
@@ -80,6 +95,8 @@ struct BaselinesSettingsView: View {
                         TextField("8", text: $runMinutes)
                             .frame(width: 60)
                             .multilineTextAlignment(.center)
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .runMinutes)
                         
                         Text(":")
                             .foregroundStyle(Theme.textMuted)
@@ -87,6 +104,10 @@ struct BaselinesSettingsView: View {
                         TextField("00", text: $runSeconds)
                             .frame(width: 60)
                             .multilineTextAlignment(.center)
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .runSeconds)
+                        
+                        Spacer()
                         
                         Text("min/mi")
                             .foregroundStyle(Theme.textMuted)
@@ -107,6 +128,18 @@ struct BaselinesSettingsView: View {
         .background(Theme.backgroundSecondary)
         .navigationTitle("Update Baselines")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button {
+                    focusedField = nil
+                } label: {
+                    Image(systemName: "checkmark")
+                        .font(.headline)
+                        .foregroundStyle(Theme.primary)
+                }
+            }
+        }
         .onAppear {
             loadCurrentBaselines()
         }
@@ -183,7 +216,7 @@ struct BaselineInputCard<Content: View>: View {
     @ViewBuilder let content: Content
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 12) {
                 ZStack {
                     Circle()
@@ -191,12 +224,14 @@ struct BaselineInputCard<Content: View>: View {
                         .frame(width: 40, height: 40)
                     
                     Image(systemName: icon)
+                        .font(.system(size: 18))
                         .foregroundStyle(iconColor)
                 }
                 
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.headline)
+                        .fontWeight(.semibold)
                         .foregroundStyle(Theme.text)
                     
                     Text(subtitle)
@@ -205,20 +240,19 @@ struct BaselineInputCard<Content: View>: View {
                 }
             }
             
-            HStack {
-                content
-            }
-            .padding(16)
-            .background(Theme.backgroundSecondary)
-            .cornerRadius(12)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Theme.border, lineWidth: 1)
-            )
+            content
+                .padding(16)
+                .background(Theme.backgroundSecondary)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Theme.border, lineWidth: 1)
+                )
         }
-        .padding(16)
+        .padding(20)
         .background(Color.white)
         .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
     }
 }
 

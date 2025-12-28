@@ -11,9 +11,9 @@ struct MainTabView: View {
                 }
                 .tag(0)
             
-            HistoryView()
+            PlanView(selectedTab: $selectedTab)
                 .tabItem {
-                    Label("History", systemImage: "clock.fill")
+                    Label("Plan", systemImage: "calendar")
                 }
                 .tag(1)
             

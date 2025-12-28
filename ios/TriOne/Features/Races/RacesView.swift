@@ -1,9 +1,23 @@
 import SwiftUI
 
 struct RacesView: View {
+    @EnvironmentObject var authService: AuthService
     @State private var races: [Race] = Race.mockRaces
     @State private var searchText = ""
     @State private var showAddRace = false
+    @State private var isUpdatingRace = false
+    
+    var selectedRace: Race? {
+        guard let primaryRaceId = authService.currentUser?.primaryRaceId else { return nil }
+        return races.first { $0.id == primaryRaceId }
+    }
+    
+    var upcomingRaces: [Race] {
+        let filtered = filteredRaces.filter { race in
+            race.id != selectedRace?.id
+        }
+        return filtered.sorted { $0.date < $1.date }
+    }
     
     var filteredRaces: [Race] {
         if searchText.isEmpty {
@@ -32,6 +46,26 @@ struct RacesView: View {
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 16)
+                    
+                    // Selected Race Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Next Race")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundStyle(Theme.textMuted)
+                            .textCase(.uppercase)
+                            .padding(.horizontal, 24)
+                        
+                        if let selectedRace = selectedRace {
+                            SelectedRaceCard(race: selectedRace, isUpdating: isUpdatingRace) {
+                                deselectRace()
+                            }
+                            .padding(.horizontal, 24)
+                        } else {
+                            NoRaceSelectedCard()
+                                .padding(.horizontal, 24)
+                        }
+                    }
                     
                     // Search
                     HStack(spacing: 12) {
@@ -89,32 +123,36 @@ struct RacesView: View {
                     .padding(.horizontal, 24)
                     
                     // Race List
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Upcoming Races")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundStyle(Theme.textMuted)
-                            .textCase(.uppercase)
-                            .padding(.horizontal, 24)
-                        
-                        ForEach(filteredRaces.sorted { $0.date < $1.date }) { race in
-                            RaceCard(race: race)
+                    if !upcomingRaces.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Upcoming Races")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(Theme.textMuted)
+                                .textCase(.uppercase)
                                 .padding(.horizontal, 24)
-                        }
-                        
-                        if filteredRaces.isEmpty {
-                            VStack(spacing: 16) {
-                                Image(systemName: "flag")
-                                    .font(.system(size: 48))
-                                    .foregroundStyle(Theme.textMuted)
-                                
-                                Text("No races found")
-                                    .font(.subheadline)
-                                    .foregroundStyle(Theme.textSecondary)
+                            
+                            ForEach(upcomingRaces) { race in
+                                RaceCard(race: race, isSelectable: true) {
+                                    selectRace(race)
+                                }
+                                .padding(.horizontal, 24)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 48)
                         }
+                    }
+                    
+                    if upcomingRaces.isEmpty && searchText.isEmpty {
+                        VStack(spacing: 16) {
+                            Image(systemName: "flag")
+                                .font(.system(size: 48))
+                                .foregroundStyle(Theme.textMuted)
+                            
+                            Text("No races found")
+                                .font(.subheadline)
+                                .foregroundStyle(Theme.textSecondary)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 48)
                     }
                 }
                 .padding(.bottom, 32)
@@ -125,18 +163,144 @@ struct RacesView: View {
             }
         }
     }
+    
+    private func selectRace(_ race: Race) {
+        guard !isUpdatingRace else { return }
+        isUpdatingRace = true
+        
+        Task {
+            do {
+                if !authService.isDevMode {
+                    try await APIService.shared.updatePrimaryRace(raceId: race.id)
+                }
+                
+                await MainActor.run {
+                    authService.updateUser { user in
+                        user.primaryRaceId = race.id
+                    }
+                    isUpdatingRace = false
+                }
+            } catch {
+                print("Failed to update primary race: \(error)")
+                await MainActor.run {
+                    isUpdatingRace = false
+                }
+            }
+        }
+    }
+    
+    private func deselectRace() {
+        guard !isUpdatingRace else { return }
+        isUpdatingRace = true
+        
+        Task {
+            do {
+                if !authService.isDevMode {
+                    try await APIService.shared.updatePrimaryRace(raceId: nil)
+                }
+                
+                await MainActor.run {
+                    authService.updateUser { user in
+                        user.primaryRaceId = nil
+                    }
+                    isUpdatingRace = false
+                }
+            } catch {
+                print("Failed to deselect race: \(error)")
+                await MainActor.run {
+                    isUpdatingRace = false
+                }
+            }
+        }
+    }
 }
 
 struct RaceCard: View {
     let race: Race
+    var isSelectable: Bool = false
+    var onSelect: (() -> Void)? = nil
+    
+    var body: some View {
+        Button {
+            onSelect?()
+        } label: {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(race.name)
+                            .font(.headline)
+                            .foregroundStyle(Theme.text)
+                        
+                        Text(race.location)
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.textSecondary)
+                        
+                        Text(race.formattedDate)
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundStyle(Theme.primary)
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .trailing) {
+                        Text("\(race.daysUntil)")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Theme.text)
+                        
+                        Text("days")
+                            .font(.caption)
+                            .foregroundStyle(Theme.textMuted)
+                    }
+                }
+                
+                Divider()
+                
+                HStack {
+                    Label("\(String(format: "%.1f", race.swimKm))km", systemImage: "drop.fill")
+                        .foregroundStyle(Theme.swim)
+                    
+                    Spacer()
+                    
+                    Label("\(Int(race.bikeKm))km", systemImage: "bicycle")
+                        .foregroundStyle(Theme.bike)
+                    
+                    Spacer()
+                    
+                    Label("\(String(format: "%.1f", race.runKm))km", systemImage: "figure.run")
+                        .foregroundStyle(Theme.run)
+                }
+                .font(.caption)
+            }
+            .padding(16)
+            .background(Color.white)
+            .cornerRadius(16)
+            .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 4)
+        }
+        .buttonStyle(.plain)
+        .disabled(!isSelectable)
+    }
+}
+
+struct SelectedRaceCard: View {
+    let race: Race
+    let isUpdating: Bool
+    let onDeselect: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(race.name)
-                        .font(.headline)
-                        .foregroundStyle(Theme.text)
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(Theme.success)
+                            .font(.subheadline)
+                        
+                        Text(race.name)
+                            .font(.headline)
+                            .foregroundStyle(Theme.text)
+                    }
                     
                     Text(race.location)
                         .font(.subheadline)
@@ -179,11 +343,62 @@ struct RaceCard: View {
                     .foregroundStyle(Theme.run)
             }
             .font(.caption)
+            
+            Button {
+                onDeselect()
+            } label: {
+                HStack {
+                    Spacer()
+                    Text("Change Race")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundStyle(Theme.primary)
+                    Spacer()
+                }
+                .padding(.vertical, 8)
+                .background(Theme.primary.opacity(0.1))
+                .cornerRadius(8)
+            }
+            .disabled(isUpdating)
         }
         .padding(16)
         .background(Color.white)
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 4)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Theme.success.opacity(0.3), lineWidth: 2)
+        )
+    }
+}
+
+struct NoRaceSelectedCard: View {
+    var body: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: "flag.slash")
+                    .font(.title2)
+                    .foregroundStyle(Theme.textMuted)
+                
+                Text("No Race Currently Selected")
+                    .font(.headline)
+                    .foregroundStyle(Theme.text)
+            }
+            
+            Text("Select a race below to set it as your next race")
+                .font(.subheadline)
+                .foregroundStyle(Theme.textSecondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(24)
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 4)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Theme.border, lineWidth: 1)
+        )
     }
 }
 

@@ -5,9 +5,6 @@ struct TrainingProgressView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            // Race Countdown
-            raceCountdownCard
-            
             // Current Phase
             currentPhaseCard
             

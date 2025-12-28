@@ -3,6 +3,12 @@ import SwiftUI
 struct DashboardView: View {
     @EnvironmentObject var authService: AuthService
     @StateObject private var workoutService = WorkoutService.shared
+    @State private var races: [Race] = Race.mockRaces
+    
+    var selectedRace: Race? {
+        guard let primaryRaceId = authService.currentUser?.primaryRaceId else { return nil }
+        return races.first { $0.id == primaryRaceId }
+    }
     
     var body: some View {
         NavigationStack {
@@ -22,13 +28,15 @@ struct DashboardView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 16)
                     
-                    // Week View
-                    WeekCalendarView(workouts: workoutService.weekWorkouts)
-                        .padding(.horizontal, 24)
-                    
-                    // Training Progress (if user has a plan)
-                    TrainingProgressView(plan: .mock)
-                        .padding(.horizontal, 24)
+                    // Selected Race Info
+                    if let selectedRace = selectedRace {
+                        SelectedRaceInfoCard(race: selectedRace)
+                            .padding(.horizontal, 24)
+                        
+                        // Training Progress (if user has a plan and selected race)
+                        TrainingProgressView(plan: createTrainingProgressPlan(for: selectedRace))
+                            .padding(.horizontal, 24)
+                    }
                     
                     // Today's Workout
                     VStack(alignment: .leading, spacing: 12) {
@@ -57,94 +65,56 @@ struct DashboardView: View {
             await workoutService.loadAllData()
         }
     }
-}
-
-// MARK: - Week Calendar
-struct WeekCalendarView: View {
-    let workouts: [Workout]
     
-    private var weekDays: [(date: Date, workout: Workout?)] {
+    // MARK: - Helper Functions
+    
+    private func createTrainingProgressPlan(for race: Race) -> TrainingProgressPlan {
+        // Calculate plan start date (typically 16 weeks before race, but adjust based on actual plan if available)
         let calendar = Calendar.current
-        let today = Date()
-        let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today))!
+        let planStartDate = calendar.date(byAdding: .weekOfYear, value: -16, to: race.date) ?? Date()
         
-        return (0..<7).map { dayOffset in
-            let date = calendar.date(byAdding: .day, value: dayOffset, to: startOfWeek)!
-            let workout = workouts.first { calendar.isDate($0.scheduledDate, inSameDayAs: date) }
-            return (date, workout)
+        // Calculate current week (simplified - would come from actual plan in real implementation)
+        let daysFromStart = calendar.dateComponents([.day], from: planStartDate, to: Date()).day ?? 0
+        let currentWeek = max(1, (daysFromStart / 7) + 1)
+        
+        // Determine phase based on week
+        let currentPhase: TrainingPhase
+        if currentWeek <= 4 {
+            currentPhase = .base
+        } else if currentWeek <= 12 {
+            currentPhase = .build
+        } else if currentWeek <= 16 {
+            currentPhase = .peak
+        } else {
+            currentPhase = .taper
         }
-    }
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ForEach(weekDays, id: \.date) { day in
-                    WeekDayCard(date: day.date, workout: day.workout)
-                }
-            }
+        
+        // Get distance type string (extract just the number part from displayName)
+        let distanceTypeString: String
+        switch race.distanceType {
+        case .sprint:
+            distanceTypeString = "Sprint"
+        case .olympic:
+            distanceTypeString = "Olympic"
+        case .halfIronman:
+            distanceTypeString = "70.3"
+        case .fullIronman:
+            distanceTypeString = "140.6"
         }
-    }
-}
-
-struct WeekDayCard: View {
-    let date: Date
-    let workout: Workout?
-    
-    private var isToday: Bool {
-        Calendar.current.isDateInToday(date)
-    }
-    
-    private var dayName: String {
-        date.formatted(.dateTime.weekday(.abbreviated))
-    }
-    
-    private var dayNumber: String {
-        date.formatted(.dateTime.day())
-    }
-    
-    var body: some View {
-        NavigationLink(destination: workout.map { WorkoutDetailView(workout: $0) }) {
-            VStack(spacing: 8) {
-                Text(dayName)
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .foregroundStyle(isToday ? .white.opacity(0.7) : Theme.textMuted)
-                
-                Text(dayNumber)
-                    .font(.headline)
-                    .foregroundStyle(isToday ? .white : Theme.text)
-                
-                if let workout = workout {
-                    if workout.status == .completed {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(isToday ? .white : Theme.success)
-                    } else if workout.status == .missed {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Theme.error)
-                    } else {
-                        ZStack {
-                            Circle()
-                                .fill(isToday ? Color.white.opacity(0.2) : workout.color.opacity(0.2))
-                                .frame(width: 24, height: 24)
-                            
-                            Image(systemName: workout.icon)
-                                .font(.caption)
-                                .foregroundStyle(isToday ? .white : workout.color)
-                        }
-                    }
-                } else {
-                    Circle()
-                        .fill(Theme.border)
-                        .frame(width: 24, height: 24)
-                }
-            }
-            .frame(width: 52)
-            .padding(.vertical, 12)
-            .background(isToday ? Theme.primary : Theme.backgroundSecondary)
-            .cornerRadius(16)
-        }
-        .buttonStyle(.plain)
-        .disabled(workout == nil)
+        
+        return TrainingProgressPlan(
+            id: "plan-\(race.id)",
+            raceName: race.name,
+            raceDate: race.date,
+            raceDistanceType: distanceTypeString,
+            startDate: planStartDate,
+            currentPhase: currentPhase,
+            currentWeek: currentWeek,
+            totalWeeks: 16,
+            currentWeekFocus: currentPhase == .build ? "Threshold Development" : "Base Building",
+            weeklyVolumeSeconds: 7 * 3600, // 7 hours (would come from actual plan)
+            completedVolumeSeconds: 4 * 3600 + 30 * 60 // 4.5 hours (would come from actual data)
+        )
     }
 }
 
@@ -348,6 +318,75 @@ struct ProgressBar: View {
             }
         }
         .frame(height: 8)
+    }
+}
+
+// MARK: - Selected Race Info Card
+
+struct SelectedRaceInfoCard: View {
+    let race: Race
+    
+    var body: some View {
+        HStack(spacing: 12) {
+            // Days remaining circle
+            ZStack {
+                Circle()
+                    .stroke(Theme.border, lineWidth: 3)
+                    .frame(width: 48, height: 48)
+                
+                VStack(spacing: 0) {
+                    Text("\(race.daysUntil)")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Theme.text)
+                    
+                    Text("days")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+            }
+            
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 4) {
+                    Image(systemName: "flag.fill")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.primary)
+                    
+                    Text("Next Race")
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .foregroundStyle(Theme.textMuted)
+                        .textCase(.uppercase)
+                }
+                
+                Text(race.name)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Theme.text)
+                    .lineLimit(1)
+                
+                HStack(spacing: 6) {
+                    Text(race.location)
+                        .font(.caption)
+                        .foregroundStyle(Theme.textSecondary)
+                    
+                    Text("•")
+                        .font(.caption)
+                        .foregroundStyle(Theme.textMuted)
+                    
+                    Text(race.formattedDate)
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(Theme.primary)
+                }
+            }
+            
+            Spacer()
+        }
+        .padding(12)
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
     }
 }
 
