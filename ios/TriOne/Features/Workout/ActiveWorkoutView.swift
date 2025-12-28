@@ -4,6 +4,7 @@ import CoreLocation
 struct ActiveWorkoutView: View {
     let workout: Workout
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var authService: AuthService
     
     @State private var currentStepIndex = 0
     @State private var timeRemaining = 0
@@ -14,6 +15,15 @@ struct ActiveWorkoutView: View {
     @State private var showEndWorkoutSheet = false
     @State private var showFeedbackSheet = false
     @State private var showCompletionCelebration = false
+    
+    // Personalized calculator
+    private var calculator: PersonalizedWorkoutCalculator? {
+        guard let biometrics = authService.currentUser?.biometrics else { return nil }
+        return PersonalizedWorkoutCalculator(
+            biometrics: biometrics,
+            workoutType: workout.workoutType
+        )
+    }
     
     private var currentStep: WorkoutStep? {
         guard currentStepIndex < workout.structure.steps.count else { return nil }
@@ -97,6 +107,7 @@ struct ActiveWorkoutView: View {
             mainDisplaySection
             Spacer()
             nextUpSection
+                .padding(.bottom, 32)
             controlsSection
         }
     }
@@ -131,7 +142,7 @@ struct ActiveWorkoutView: View {
                             .frame(height: 4)
                         
                         Capsule()
-                            .fill(workout.color)
+                            .fill(Theme.primary)
                             .frame(width: geo.size.width * progressPercent, height: 4)
                     }
                 }
@@ -158,26 +169,35 @@ struct ActiveWorkoutView: View {
     
     private var mainDisplaySection: some View {
         VStack(spacing: 16) {
-            // Current Step Name
-            Text(currentStep?.type.displayName ?? "Complete!")
+            // Current Step Name (Personalized)
+            Text(getPersonalizedStepName(for: currentStep) ?? "Complete!")
                 .font(.title2)
                 .foregroundStyle(.white.opacity(0.6))
             
             // Timer
             Text(formatTime(timeRemaining))
                 .font(.system(size: 96, weight: .bold, design: .monospaced))
-                .foregroundStyle(timeRemaining <= 3 ? workout.color : .white)
+                .foregroundStyle(timeRemaining <= 3 ? Theme.primary : .white)
             
-            // Target
+            // Target (Personalized)
             if let step = currentStep {
-                Text(step.targetText)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                    .background(workout.color)
-                    .cornerRadius(24)
+                VStack(spacing: 4) {
+                    Text(getPersonalizedTargetText(for: step))
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white)
+                    
+                    // Coaching instruction
+                    if let coaching = getPersonalizedCoaching(for: step) {
+                        Text(coaching)
+                            .font(.caption)
+                            .foregroundStyle(.white.opacity(0.8))
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
+                .background(Theme.primary)
+                .cornerRadius(24)
             }
             
             // Progress
@@ -188,18 +208,72 @@ struct ActiveWorkoutView: View {
         }
     }
     
+    // MARK: - Personalized Helpers
+    
+    private func getPersonalizedStepName(for step: WorkoutStep?) -> String? {
+        guard let step = step else { return nil }
+        
+        // Use personalized step names if calculator is available
+        switch step.type {
+        case .warmup:
+            return "Warm Up"
+        case .main:
+            if step.targetZone == 3 {
+                return "Tempo Hold"
+            } else if step.targetZone == 2 {
+                return "Endurance"
+            }
+            return "Main Set"
+        case .interval:
+            if step.targetZone == 4 {
+                return "Threshold Push"
+            } else if step.targetZone == 5 {
+                return "VO2 Max"
+            }
+            return "Interval"
+        case .rest:
+            return "Active Recovery"
+        case .cooldown:
+            return "Cool Down"
+        }
+    }
+    
+    private func getPersonalizedTargetText(for step: WorkoutStep) -> String {
+        if let calculator = calculator {
+            return calculator.getPersonalizedTargetText(for: step)
+        }
+        return step.targetText
+    }
+    
+    private func getPersonalizedCoaching(for step: WorkoutStep) -> String? {
+        if let calculator = calculator {
+            let coaching = calculator.getPersonalizedCoaching(for: step)
+            // Only show coaching if it's different from the default description
+            if coaching != step.description {
+                return coaching
+            }
+        }
+        return step.description
+    }
+    
     @ViewBuilder
     private var nextUpSection: some View {
         if let nextStep = nextStep {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text("NEXT UP")
                     .font(.caption)
                     .foregroundStyle(.white.opacity(0.4))
                 
                 HStack {
-                    Text(nextStep.type.displayName)
-                        .font(.headline)
-                        .foregroundStyle(.white)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(getPersonalizedStepName(for: nextStep) ?? nextStep.type.displayName)
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                        
+                        Text(getPersonalizedTargetText(for: nextStep))
+                            .font(.caption)
+                            .foregroundStyle(.white.opacity(0.7))
+                    }
                     
                     Spacer()
                     
@@ -212,46 +286,51 @@ struct ActiveWorkoutView: View {
             .background(Color.white.opacity(0.1))
             .cornerRadius(12)
             .padding(.horizontal, 24)
+            .padding(.top, 16)
         }
     }
     
     private var controlsSection: some View {
         VStack(spacing: 16) {
-            // Pause/Play Button
-            Button {
-                isPaused.toggle()
-                HapticService.shared.medium()
-            } label: {
-                ZStack {
-                    Circle()
-                        .fill(workout.color)
-                        .frame(width: 80, height: 80)
-                    
-                    Image(systemName: isPaused ? "play.fill" : "pause.fill")
-                        .font(.title)
-                        .foregroundStyle(.white)
-                }
-            }
-            
             // Total Time
             Text("Total: \(formatTime(totalElapsed))")
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.4))
             
-            // End Workout Button
-            Button {
-                isPaused = true
-                showEndWorkoutSheet = true
-                HapticService.shared.medium()
-            } label: {
-                Text("End Workout")
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .foregroundStyle(.white.opacity(0.6))
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 10)
-                    .background(Color.white.opacity(0.1))
-                    .cornerRadius(20)
+            // Control Buttons - Side by Side
+            HStack(spacing: 24) {
+                // Pause/Play Button
+                Button {
+                    isPaused.toggle()
+                    HapticService.shared.medium()
+                } label: {
+                    ZStack {
+                        Circle()
+                            .fill(Theme.primary)
+                            .frame(width: 80, height: 80)
+                        
+                        Image(systemName: isPaused ? "play.fill" : "pause.fill")
+                            .font(.title)
+                            .foregroundStyle(.white)
+                    }
+                }
+                
+                // Stop/End Workout Button
+                Button {
+                    isPaused = true
+                    showEndWorkoutSheet = true
+                    HapticService.shared.medium()
+                } label: {
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.2))
+                            .frame(width: 80, height: 80)
+                        
+                        Image(systemName: "stop.fill")
+                            .font(.title2)
+                            .foregroundStyle(.white)
+                    }
+                }
             }
         }
         .padding(.bottom, 48)
@@ -266,12 +345,12 @@ struct ActiveWorkoutView: View {
             // Celebration Icon
             ZStack {
                 Circle()
-                    .fill(workout.color.opacity(0.2))
+                    .fill(Theme.primary.opacity(0.2))
                     .frame(width: 120, height: 120)
                 
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 64))
-                    .foregroundStyle(workout.color)
+                    .foregroundStyle(Theme.primary)
             }
             
             Text("Workout Complete!")
@@ -319,7 +398,7 @@ struct ActiveWorkoutView: View {
                     .foregroundStyle(.black)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
-                    .background(workout.color)
+                    .background(Theme.primary)
                     .cornerRadius(12)
             }
             .padding(.horizontal, 24)
@@ -476,7 +555,7 @@ struct EndWorkoutSheet: View {
                     Text("\(progressPercent)%")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundStyle(workout.color)
+                        .foregroundStyle(Theme.primary)
                 }
                 
                 // Progress Bar
@@ -487,7 +566,7 @@ struct EndWorkoutSheet: View {
                             .frame(height: 8)
                         
                         Capsule()
-                            .fill(workout.color)
+                            .fill(Theme.primary)
                             .frame(width: geo.size.width * (Double(stepsCompleted) / Double(max(1, totalSteps))), height: 8)
                     }
                 }
@@ -571,4 +650,5 @@ struct EndWorkoutSheet: View {
 
 #Preview {
     ActiveWorkoutView(workout: .mock())
+        .environmentObject(AuthService.shared)
 }

@@ -3,6 +3,7 @@ import SwiftUI
 struct WorkoutDetailView: View {
     let workout: Workout
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var authService: AuthService
     @StateObject private var workoutService = WorkoutService.shared
     
     // Get the current status from the service (in case it was updated)
@@ -12,6 +13,38 @@ struct WorkoutDetailView: View {
     
     private var isCompleted: Bool {
         currentWorkout.status == .completed
+    }
+    
+    // Personalized calculator
+    private var calculator: PersonalizedWorkoutCalculator? {
+        guard let biometrics = authService.currentUser?.biometrics else { return nil }
+        return PersonalizedWorkoutCalculator(
+            biometrics: biometrics,
+            workoutType: currentWorkout.workoutType
+        )
+    }
+    
+    // Personalized title
+    private var personalizedTitle: String {
+        WorkoutTitleGenerator.generateTitle(
+            for: currentWorkout.structure,
+            type: currentWorkout.workoutType
+        )
+    }
+    
+    // Personalized "Why"
+    private var personalizedWhy: String {
+        WorkoutWhyGenerator.generateWhy(
+            for: currentWorkout.structure,
+            type: currentWorkout.workoutType
+        )
+    }
+    
+    // Calculate TSS (Training Stress Score) - simplified
+    private var estimatedTSS: Int {
+        let totalMinutes = currentWorkout.structure.totalDuration / 60
+        let avgIntensity = currentWorkout.structure.steps.compactMap { $0.targetZone }.reduce(0, +) / max(currentWorkout.structure.steps.count, 1)
+        return Int(Double(totalMinutes) * (Double(avgIntensity) / 4.0) * 0.7) // Rough estimate
     }
     
     var body: some View {
@@ -46,7 +79,7 @@ struct WorkoutDetailView: View {
             HStack {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(currentWorkout.color)
+                        .fill(Theme.primary)
                         .frame(width: 48, height: 48)
                     
                     Image(systemName: currentWorkout.icon)
@@ -67,7 +100,7 @@ struct WorkoutDetailView: View {
                         }
                     }
                     
-                    Text(currentWorkout.structure.title)
+                    Text(personalizedTitle)
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundStyle(Theme.text)
@@ -78,37 +111,31 @@ struct WorkoutDetailView: View {
             
             HStack(spacing: 24) {
                 Label(currentWorkout.structure.formattedDuration, systemImage: "clock")
-                Label("\(currentWorkout.structure.steps.count) steps", systemImage: "list.number")
+                Label("\(estimatedTSS) TSS", systemImage: "chart.bar.fill")
             }
             .font(.subheadline)
             .foregroundStyle(Theme.textSecondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(24)
-        .background(currentWorkout.color.opacity(0.1))
+        .background(Theme.primary.opacity(0.1))
     }
     
-    // MARK: - Purpose Section
+    // MARK: - Purpose Section (The "Why")
     
     private var purposeSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 8) {
-                Image(systemName: "lightbulb.fill")
-                    .foregroundStyle(Theme.warning)
-                
-                Text("Today's Purpose")
-                    .font(.headline)
-                    .foregroundStyle(Theme.text)
-            }
-            
-            Text(currentWorkout.structure.description)
-                .font(.body)
+            Text(personalizedWhy)
+                .font(.subheadline)
+                .italic()
                 .foregroundStyle(Theme.textSecondary)
                 .lineSpacing(4)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(24)
-        .background(Color.white)
+        .padding(16)
+        .background(Theme.backgroundSecondary)
+        .cornerRadius(12)
+        .padding(.horizontal, 24)
     }
     
     // MARK: - Intensity Section
@@ -119,7 +146,11 @@ struct WorkoutDetailView: View {
                 .font(.headline)
                 .foregroundStyle(Theme.text)
             
-            IntensityChart(steps: currentWorkout.structure.steps, color: currentWorkout.color)
+            PersonalizedIntensityChart(
+                steps: currentWorkout.structure.steps,
+                color: Theme.primary,
+                totalDuration: currentWorkout.structure.totalDuration
+            )
             
             HStack {
                 Text("Start")
@@ -141,7 +172,12 @@ struct WorkoutDetailView: View {
                 .foregroundStyle(Theme.text)
             
             ForEach(Array(currentWorkout.structure.steps.enumerated()), id: \.element.id) { index, step in
-                WorkoutStepRow(step: step, index: index, color: currentWorkout.color)
+                PersonalizedWorkoutStepRow(
+                    step: step,
+                    index: index,
+                    calculator: calculator,
+                    color: Theme.primary
+                )
             }
         }
         .padding(24)
@@ -183,7 +219,7 @@ struct WorkoutDetailView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(currentWorkout.color)
+                        .background(Theme.primary)
                         .cornerRadius(12)
                 }
                 .padding(.horizontal, 24)
@@ -209,21 +245,25 @@ struct WorkoutDetailView: View {
     }
 }
 
-struct IntensityChart: View {
+struct PersonalizedIntensityChart: View {
     let steps: [WorkoutStep]
     let color: Color
+    let totalDuration: Int
     
     var body: some View {
-        HStack(alignment: .bottom, spacing: 2) {
-            ForEach(steps) { step in
-                let intensity = Double(step.targetZone ?? (step.isIntense ? 4 : 2))
-                let height = (intensity / 6.0) * 64
-                
-                Rectangle()
-                    .fill(step.type == .rest ? Theme.border : color)
-                    .frame(height: height)
-                    .cornerRadius(2)
-                    .opacity(step.type == .rest ? 0.5 : 1)
+        GeometryReader { geometry in
+            HStack(alignment: .bottom, spacing: 2) {
+                ForEach(steps) { step in
+                    let intensity = Double(step.targetZone ?? (step.isIntense ? 4 : 2))
+                    let height = (intensity / 6.0) * 64
+                    let width = (Double(step.duration) / Double(totalDuration)) * geometry.size.width
+                    
+                    Rectangle()
+                        .fill(step.type == .rest ? Theme.border : color)
+                        .frame(width: max(width, 4), height: height)
+                        .cornerRadius(2)
+                        .opacity(step.type == .rest ? 0.5 : 1)
+                }
             }
         }
         .frame(height: 64)
@@ -233,10 +273,51 @@ struct IntensityChart: View {
     }
 }
 
-struct WorkoutStepRow: View {
+struct PersonalizedWorkoutStepRow: View {
     let step: WorkoutStep
     let index: Int
+    let calculator: PersonalizedWorkoutCalculator?
     let color: Color
+    
+    private var stepName: String {
+        // Generate more descriptive step names
+        switch step.type {
+        case .warmup:
+            return "Warm Up"
+        case .main:
+            if step.targetZone == 3 {
+                return "Tempo Hold"
+            } else if step.targetZone == 2 {
+                return "Endurance"
+            }
+            return "Main Set"
+        case .interval:
+            if step.targetZone == 4 {
+                return "Threshold Push"
+            } else if step.targetZone == 5 {
+                return "VO2 Max"
+            }
+            return "Interval"
+        case .rest:
+            return "Active Recovery"
+        case .cooldown:
+            return "Cool Down"
+        }
+    }
+    
+    private var targetText: String {
+        if let calculator = calculator {
+            return calculator.getPersonalizedTargetText(for: step)
+        }
+        return step.targetText
+    }
+    
+    private var coachingText: String {
+        if let calculator = calculator {
+            return calculator.getPersonalizedCoaching(for: step)
+        }
+        return step.description ?? "Maintain steady effort"
+    }
     
     var body: some View {
         HStack(spacing: 16) {
@@ -252,20 +333,19 @@ struct WorkoutStepRow: View {
             }
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(step.type.displayName)
+                Text(stepName)
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(Theme.text)
                 
-                Text(step.targetText)
+                Text(targetText)
                     .font(.caption)
+                    .fontWeight(.medium)
                     .foregroundStyle(Theme.textSecondary)
                 
-                if let description = step.description {
-                    Text(description)
-                        .font(.caption)
-                        .foregroundStyle(Theme.textMuted)
-                }
+                Text(coachingText)
+                    .font(.caption)
+                    .foregroundStyle(Theme.textMuted)
             }
             
             Spacer()
@@ -284,5 +364,6 @@ struct WorkoutStepRow: View {
 #Preview {
     NavigationStack {
         WorkoutDetailView(workout: .mock())
+            .environmentObject(AuthService.shared)
     }
 }

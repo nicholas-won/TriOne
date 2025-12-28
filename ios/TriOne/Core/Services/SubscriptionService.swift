@@ -113,6 +113,15 @@ class SubscriptionService: NSObject, ObservableObject {
         do {
             offerings = try await Purchases.shared.offerings()
         } catch {
+            // Handle App Store Connect errors gracefully (app not found, etc.)
+            if let nsError = error as NSError?,
+               let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? NSError,
+               underlyingError.domain == "AMSErrorDomain" {
+                print("⚠️ App Store Connect error (app may not be registered yet): \(underlyingError.localizedDescription)")
+                print("💡 This is normal if the app hasn't been created in App Store Connect yet.")
+                // Don't set errorMessage for expected App Store Connect errors
+                return
+            }
             print("Failed to fetch offerings: \(error)")
             errorMessage = error.localizedDescription
         }
@@ -124,6 +133,13 @@ class SubscriptionService: NSObject, ObservableObject {
         do {
             customerInfo = try await Purchases.shared.customerInfo()
         } catch {
+            // Handle App Store Connect errors gracefully
+            if let nsError = error as NSError?,
+               let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? NSError,
+               underlyingError.domain == "AMSErrorDomain" {
+                print("⚠️ App Store Connect error (app may not be registered yet): \(underlyingError.localizedDescription)")
+                return
+            }
             print("Failed to fetch customer info: \(error)")
         }
     }
@@ -136,17 +152,28 @@ class SubscriptionService: NSObject, ObservableObject {
         
         defer { isLoading = false }
         
-        let result = try await Purchases.shared.purchase(package: package)
-        
-        // Check if the purchase was successful
-        if result.customerInfo.entitlements["premium"]?.isActive == true {
-            customerInfo = result.customerInfo
+        do {
+            let result = try await Purchases.shared.purchase(package: package)
             
-            // Update local user state
-            AuthService.shared.updateUser { user in
-                user.subscriptionStatus = .active
-                user.trialEndsAt = nil // No longer on trial
+            // Check if the purchase was successful
+            if result.customerInfo.entitlements["premium"]?.isActive == true {
+                customerInfo = result.customerInfo
+                
+                // Update local user state
+                AuthService.shared.updateUser { user in
+                    user.subscriptionStatus = .active
+                    user.trialEndsAt = nil // No longer on trial
+                }
             }
+        } catch {
+            // Handle App Store Connect errors gracefully
+            if let nsError = error as NSError?,
+               let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? NSError,
+               underlyingError.domain == "AMSErrorDomain" {
+                print("⚠️ App Store Connect error (app may not be registered yet): \(underlyingError.localizedDescription)")
+                throw SubscriptionError.purchaseFailed("App not registered in App Store Connect. Please complete App Store Connect setup first.")
+            }
+            throw error
         }
     }
     
@@ -176,14 +203,26 @@ class SubscriptionService: NSObject, ObservableObject {
             throw SubscriptionError.notConfigured
         }
         
-        let customerInfo = try await Purchases.shared.restorePurchases()
-        self.customerInfo = customerInfo
-        
-        // Check if restoration found an active subscription
-        if customerInfo.entitlements["premium"]?.isActive == true {
-            AuthService.shared.updateUser { user in
-                user.subscriptionStatus = .active
+        do {
+            let customerInfo = try await Purchases.shared.restorePurchases()
+            self.customerInfo = customerInfo
+            
+            // Check if restoration found an active subscription
+            if customerInfo.entitlements["premium"]?.isActive == true {
+                AuthService.shared.updateUser { user in
+                    user.subscriptionStatus = .active
+                }
             }
+        } catch {
+            // Handle App Store Connect errors gracefully
+            if let nsError = error as NSError?,
+               let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? NSError,
+               underlyingError.domain == "AMSErrorDomain" {
+                print("⚠️ App Store Connect error (app may not be registered yet): \(underlyingError.localizedDescription)")
+                print("💡 This is normal if the app hasn't been created in App Store Connect yet.")
+                throw SubscriptionError.purchaseFailed("App not registered in App Store Connect. Please complete App Store Connect setup first.")
+            }
+            throw error
         }
     }
     
@@ -202,6 +241,13 @@ class SubscriptionService: NSObject, ObservableObject {
             let (customerInfo, _) = try await Purchases.shared.logIn(userId)
             self.customerInfo = customerInfo
         } catch {
+            // Handle App Store Connect errors gracefully
+            if let nsError = error as NSError?,
+               let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? NSError,
+               underlyingError.domain == "AMSErrorDomain" {
+                print("⚠️ App Store Connect error (app may not be registered yet): \(underlyingError.localizedDescription)")
+                return
+            }
             print("Failed to identify user: \(error)")
         }
     }

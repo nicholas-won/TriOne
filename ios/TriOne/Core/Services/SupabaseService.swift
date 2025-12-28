@@ -14,6 +14,8 @@ class SupabaseService: ObservableObject {
     
     private init() {
         // Initialize Supabase client
+        // Note: The deprecation warning about initial session can be ignored for now
+        // The SDK will handle session emission correctly
         client = SupabaseClient(
             supabaseURL: URL(string: Config.supabaseURL)!,
             supabaseKey: Config.supabaseAnonKey
@@ -31,6 +33,12 @@ class SupabaseService: ObservableObject {
         // Get initial session
         do {
             session = try await client.auth.session
+            // Check if session is expired (new behavior requirement)
+            if let session = session, session.isExpired {
+                print("⚠️ Initial session is expired, clearing...")
+                self.session = nil
+                try? await client.auth.signOut()
+            }
         } catch {
             print("No existing session: \(error)")
         }
@@ -40,12 +48,20 @@ class SupabaseService: ObservableObject {
         // Listen for auth changes
         for await (event, session) in client.auth.authStateChanges {
             print("Auth state changed: \(event)")
-            self.session = session
             
-            // Notify AuthService of changes
+            // Check if session is expired before using it
             if let session = session {
-                await AuthService.shared.handleSessionChange(session: session)
+                if session.isExpired {
+                    print("⚠️ Session expired, signing out...")
+                    self.session = nil
+                    try? await client.auth.signOut()
+                    await AuthService.shared.handleSignOut()
+                } else {
+                    self.session = session
+                    await AuthService.shared.handleSessionChange(session: session)
+                }
             } else {
+                self.session = nil
                 await AuthService.shared.handleSignOut()
             }
         }
@@ -54,16 +70,42 @@ class SupabaseService: ObservableObject {
     // MARK: - Auth Methods
     
     func signUp(email: String, password: String) async throws -> Session {
-        let response = try await client.auth.signUp(
-            email: email,
-            password: password
-        )
-        
-        guard let session = response.session else {
-            throw SupabaseError.noSession
+        do {
+            let response = try await client.auth.signUp(
+                email: email,
+                password: password
+            )
+            
+            // Check if email confirmation is required
+            if let session = response.session {
+                return session
+            } else {
+                // If no session, email confirmation might be required
+                // Check if user was created
+                if response.user != nil {
+                    throw SupabaseError.emailConfirmationRequired
+                } else {
+                    throw SupabaseError.noSession
+                }
+            }
+        } catch {
+            // Re-throw with more context
+            if let supabaseError = error as? SupabaseError {
+                throw supabaseError
+            }
+            
+            // Wrap other errors with more context
+            print("❌ Supabase sign-up error: \(error)")
+            if let nsError = error as NSError? {
+                print("   Error domain: \(nsError.domain)")
+                print("   Error code: \(nsError.code)")
+                print("   Error description: \(nsError.localizedDescription)")
+                if let userInfo = nsError.userInfo as? [String: Any] {
+                    print("   User info: \(userInfo)")
+                }
+            }
+            throw error
         }
-        
-        return session
     }
     
     func signIn(email: String, password: String) async throws -> Session {
@@ -118,19 +160,23 @@ class SupabaseService: ObservableObject {
     }
 }
 
+
 enum SupabaseError: LocalizedError {
     case noSession
     case notAuthenticated
     case invalidResponse
+    case emailConfirmationRequired
     
     var errorDescription: String? {
         switch self {
         case .noSession:
-            return "No session returned from authentication"
+            return "No session returned from authentication. Please check your Supabase configuration."
         case .notAuthenticated:
             return "You must be signed in to perform this action"
         case .invalidResponse:
             return "Invalid response from server"
+        case .emailConfirmationRequired:
+            return "Please check your email to confirm your account. Email confirmation may be required in your Supabase settings."
         }
     }
 }

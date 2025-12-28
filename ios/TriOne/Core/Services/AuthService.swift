@@ -59,21 +59,74 @@ class AuthService: ObservableObject {
     // MARK: - Session Handling
     
     func handleSessionChange(session: Session) async {
-        // Fetch or create user profile from our backend
+        // Check if session is expired
+        guard !session.isExpired else {
+            print("⚠️ Cannot handle expired session")
+            try? await supabase.signOut()
+            return
+        }
+        
+        // Always set authentication state first (user is authenticated with Supabase)
+        isAuthenticated = true
+        isDevMode = false
+        APIService.shared.setAuthToken(session.accessToken)
+        
+        // Try to fetch or create user profile from our backend
         do {
             let userProfile = try await fetchOrCreateUserProfile(
                 authId: session.user.id.uuidString,
                 email: session.user.email ?? ""
             )
             currentUser = userProfile
-            isAuthenticated = true
-            isDevMode = false
-            
-            // Update API service with token
-            APIService.shared.setAuthToken(session.accessToken)
         } catch {
-            print("Failed to fetch user profile: \(error)")
-            authError = error.localizedDescription
+            print("⚠️ Failed to fetch user profile from backend: \(error)")
+            print("💡 Creating minimal user from Supabase session. Backend sync will retry later.")
+            
+            // Create a minimal user object from Supabase session if backend fails
+            // This allows the user to proceed while we retry backend sync
+            let minimalUser = User(
+                id: session.user.id.uuidString,
+                email: session.user.email ?? "",
+                firstName: nil,
+                lastName: nil,
+                displayName: nil,
+                avatarUrl: nil,
+                subscriptionStatus: .trial,
+                trialEndsAt: Calendar.current.date(byAdding: .day, value: Constants.trialDurationDays, to: Date()),
+                unitPreference: .imperial,
+                isPrivate: false,
+                onboardingStatus: .started,
+                trainingVolumeTier: 1,
+                calibrationMethod: .manualInput,
+                dateOfBirth: nil,
+                gender: nil,
+                primaryRaceId: nil,
+                biometrics: nil,
+                experienceLevel: nil,
+                goalDistance: nil,
+                hasHeartRateMonitor: false,
+                createdAt: Date(),
+                updatedAt: Date()
+            )
+            currentUser = minimalUser
+            
+            // Retry backend sync in background (non-blocking)
+            Task {
+                // Wait a bit and retry
+                try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
+                do {
+                    let userProfile = try await fetchOrCreateUserProfile(
+                        authId: session.user.id.uuidString,
+                        email: session.user.email ?? ""
+                    )
+                    await MainActor.run {
+                        currentUser = userProfile
+                    }
+                    print("✅ Successfully synced user profile with backend")
+                } catch {
+                    print("⚠️ Retry failed. User can still use the app. Error: \(error)")
+                }
+            }
         }
     }
     
@@ -98,9 +151,18 @@ class AuthService: ObservableObject {
         defer { isLoading = false }
         
         do {
+            print("🔐 Attempting to sign up user: \(email)")
             let session = try await supabase.signUp(email: email, password: password)
+            print("✅ Sign-up successful, handling session...")
             await handleSessionChange(session: session)
+            print("✅ User authenticated and session handled")
         } catch {
+            print("❌ Sign-up failed: \(error)")
+            if let nsError = error as NSError? {
+                print("   Error domain: \(nsError.domain)")
+                print("   Error code: \(nsError.code)")
+                print("   Error userInfo: \(nsError.userInfo)")
+            }
             authError = error.localizedDescription
             throw AuthError.signUpFailed(error.localizedDescription)
         }

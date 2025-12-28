@@ -273,10 +273,19 @@ struct RegisterView: View {
         Task {
             do {
                 try await authService.signUp(email: email, password: password)
+                // Success - navigation will happen automatically via auth state change
             } catch {
-                errorMessage = error.localizedDescription
+                await MainActor.run {
+                    isLoading = false
+                    // Show detailed error message
+                    if let supabaseError = error as? SupabaseError {
+                        errorMessage = supabaseError.localizedDescription
+                    } else {
+                        errorMessage = "Failed to create account: \(error.localizedDescription)"
+                    }
+                    print("❌ Sign-up error: \(error)")
+                }
             }
-            isLoading = false
         }
     }
 }

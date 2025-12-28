@@ -6,13 +6,13 @@ These are tasks that require manual configuration that cannot be done programmat
 
 ## 🔴 Critical (Required for App to Work)
 
-### 1. Accept Xcode License
+### 1. ✅ Accept Xcode License (COMPLETED)
 Run this command in Terminal:
 ```bash
 sudo xcodebuild -license accept
 ```
 
-### 2. Configure Supabase
+### 2. ✅ Configure Supabase (COMPLETED)
 1. Create a project at [supabase.com](https://supabase.com)
 2. Run the database migration:
    - Go to SQL Editor in Supabase dashboard
@@ -35,7 +35,7 @@ sudo xcodebuild -license accept
    PORT=3001
    ```
 
-### 3. Configure RevenueCat (for Subscriptions)
+### 3. ⚠️ Configure RevenueCat (for Subscriptions) (NEEDS PUBLIC KEY)
 1. Create account at [revenuecat.com](https://www.revenuecat.com)
 2. Create a new project
 3. Add your app (iOS)
@@ -45,14 +45,17 @@ sudo xcodebuild -license accept
 5. Add the products to RevenueCat
 6. Create an "Offering" with both packages
 7. Create an "Entitlement" called `premium`
-8. Get your API key from Project Settings → API Keys
+8. **IMPORTANT**: Get your **PUBLIC API KEY** (NOT the secret key):
+   - Go to Project Settings → API Keys
+   - Copy the **Public API Key** (starts with `rc_`, `appl_`, or `goog_`)
+   - ⚠️ Do NOT use the Secret Key (starts with `sk_`) - that's for backend only!
 9. Update `ios/TriOne/Resources/Config.plist`:
    ```xml
    <key>REVENUECAT_API_KEY</key>
-   <string>your-revenuecat-public-api-key</string>
+   <string>your-public-api-key-here</string>
    ```
 
-### 4. Set Development Team in Xcode
+### 4. ✅ Set Development Team in Xcode (COMPLETED)
 1. Open `ios/TriOne.xcodeproj` in Xcode
 2. Select the TriOne target
 3. Go to Signing & Capabilities
@@ -63,7 +66,7 @@ sudo xcodebuild -license accept
 
 ## 🟠 High Priority (Required for Full Functionality)
 
-### 5. Configure Google Sign-In (Already Partially Done)
+### 5. ✅ Configure Google Sign-In (COMPLETED)
 The client ID is already configured. To complete setup:
 1. Go to [Google Cloud Console](https://console.cloud.google.com)
 2. Create OAuth 2.0 credentials for iOS
@@ -107,7 +110,7 @@ The client ID is already configured. To complete setup:
 
 ## 🟡 Medium Priority (Nice to Have)
 
-### 8. Run Database Migration
+### 8. ✅ Run Database Migration (COMPLETED)
 After Supabase is configured, apply the schema migrations:
 ```bash
 # In Supabase Dashboard -> SQL Editor
@@ -122,7 +125,7 @@ This creates:
 - Heart rate zones table
 - Adaptation logs
 
-### 9. Seed the Database
+### 9. ✅ Seed the Database (COMPLETED)
 After migrations are applied:
 ```bash
 cd /Users/Nick/TriOne
@@ -134,7 +137,7 @@ This populates:
 - Sample races
 - Volume tier defaults
 
-### 9. Configure App Store Connect (for TestFlight/Release)
+### 10. Configure App Store Connect (for TestFlight/Release)
 1. Create app in App Store Connect
 2. Set up In-App Purchases:
    - Monthly subscription
@@ -142,7 +145,7 @@ This populates:
 3. Configure subscription group
 4. Submit for review
 
-### 10. Set Up Backend Hosting
+### 11. Set Up Backend Hosting
 Options:
 - **Vercel** - Easy deploy for Node.js
 - **Railway** - Simple hosting
@@ -159,17 +162,17 @@ Update `ios/TriOne/Resources/Config.plist` with production URL:
 
 ## 🟢 Low Priority (Future Enhancements)
 
-### 11. Garmin Connect Integration
+### 12. Garmin Connect Integration
 - Apply for Garmin Connect API access
 - Set up OAuth flow
 - Store credentials securely
 
-### 12. Apple Watch App
+### 13. Apple Watch App
 - Add watchOS target in Xcode
 - Configure Watch App capabilities
 - Set up HealthKit sharing
 
-### 13. Analytics Setup
+### 14. Analytics Setup
 Consider adding:
 - **Mixpanel** or **Amplitude** for product analytics
 - **Sentry** or **Bugsnag** for crash reporting
@@ -191,15 +194,15 @@ Consider adding:
 
 ## Quick Start Checklist
 
-- [ ] Run `sudo xcodebuild -license accept`
-- [ ] Create Supabase project
-- [ ] Run database migration
-- [ ] Update `Config.plist` with Supabase credentials
-- [ ] Update `packages/api/.env` with Supabase credentials
-- [ ] Create RevenueCat account and project
-- [ ] Add RevenueCat API key to `Config.plist`
-- [ ] Set development team in Xcode
-- [ ] Run `npm install && npm run seed`
+- [x] Run `sudo xcodebuild -license accept`
+- [x] Create Supabase project
+- [x] Run database migration
+- [x] Update `Config.plist` with Supabase credentials
+- [x] Update `packages/api/.env` with Supabase credentials
+- [x] Create RevenueCat account and project
+- [x] Add RevenueCat API key to `Config.plist`
+- [x] Set development team in Xcode
+- [x] Run `npm install && npm run seed`
 - [ ] Build and run!
 
 ---

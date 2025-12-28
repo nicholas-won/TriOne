@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		1583107AD964192F492B8062 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317340783A9FCF53F4B772CC /* ActivityDetailView.swift */; };
 		2568F6F9CEC8458E1A68858A /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E4F8297766ED1272968415 /* HapticService.swift */; };
 		293410CE222B57FD688F47F8 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = F09A4D517A78BF0D70DDC8DA /* RevenueCat */; };
+		2F7B73EEBB7CCD61F6685B64 /* PersonalizedWorkoutCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAC34D95C35EAAA77902737 /* PersonalizedWorkoutCalculator.swift */; };
 		3460B19B254A9FCA206B2312 /* CalibrationResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B0991AA16AD8312ED47C01 /* CalibrationResultView.swift */; };
 		3988C4D450AEBB3E443CD065 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4D8CB0E1E76E129CBE0FE4 /* AuthService.swift */; };
 		3A86699E441B0B7EC5F05DF7 /* TriOneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45081EC6E484392899557B2 /* TriOneApp.swift */; };
@@ -81,6 +82,7 @@
 		531D27CB729EBDB07D923859 /* BiometricsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsCalculator.swift; sourceTree = "<group>"; };
 		657FCB3F58ACB90927E25FD8 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		6834555B0274DBB47497AA5D /* ActiveWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveWorkoutView.swift; sourceTree = "<group>"; };
+		6AAC34D95C35EAAA77902737 /* PersonalizedWorkoutCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizedWorkoutCalculator.swift; sourceTree = "<group>"; };
 		6D8F8162C36C8D6EA8D0C5F2 /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
 		702467C9DB262842CA14F2C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		743C872ACDFD509BEB11E42D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -114,7 +116,7 @@
 		EDA14028C1B34DB6ED400BE7 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Config.plist; sourceTree = "<group>"; };
 		F6DCBA14CCE1DAE8A29A8CFB /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
 		FA2FD12B69C81EC512EA75FB /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
-		FEF57507B5C216D8FD0C0B7D /* TriOne.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TriOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEF57507B5C216D8FD0C0B7D /* TriOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TriOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFCB070D0E2CE201BA4CB99D /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				531D27CB729EBDB07D923859 /* BiometricsCalculator.swift */,
+				6AAC34D95C35EAAA77902737 /* PersonalizedWorkoutCalculator.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -402,7 +405,6 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					F7A17C4862F2E35436BE0D02 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -422,7 +424,6 @@
 				C73D2CF7C885160E716F2520 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 				04A55D42908C71B966E3ADB8 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -476,6 +477,7 @@
 				B36024342B1B40DE9F54F367 /* NotificationSettingsView.swift in Sources */,
 				7DC68CDE27DB6584D9AF7420 /* OnboardingFlow.swift in Sources */,
 				7C47E1986EEC926E46F64508 /* PaywallView.swift in Sources */,
+				2F7B73EEBB7CCD61F6685B64 /* PersonalizedWorkoutCalculator.swift in Sources */,
 				C01817C5E275A03E67DC1EC4 /* ProfileView.swift in Sources */,
 				BB28768FB09C5D606CCAB416 /* Race.swift in Sources */,
 				DCD0A1F01E78F2C8F9054F68 /* RaceSelectionView.swift in Sources */,
@@ -569,9 +571,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TriOne/TriOne.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5DS75359P9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = TriOne/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.trione.app;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -586,9 +592,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TriOne/TriOne.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5DS75359P9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = TriOne/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.trione.app;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
