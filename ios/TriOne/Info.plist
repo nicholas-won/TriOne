@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleDisplayName</key>
+    <string>TriOne</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.787464866044-1lvo6pl19kjp8vk2pmhnpfcsbbng00u1</string>
+            </array>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+        </dict>
+    </array>
+    <key>GIDClientID</key>
+    <string>787464866044-1lvo6pl19kjp8vk2pmhnpfcsbbng00u1.apps.googleusercontent.com</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+    </dict>
+    <key>UILaunchScreen</key>
+    <dict>
+        <key>UIColorName</key>
+        <string>LaunchScreenBackground</string>
+        <key>UIImageName</key>
+        <string>LaunchScreenIcon</string>
+    </dict>
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>armv7</string>
+    </array>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>NSHealthShareUsageDescription</key>
+    <string>TriOne uses your health data to track workouts, monitor heart rate, and provide personalized training insights.</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>TriOne saves your workout data to Apple Health for a complete fitness picture.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>TriOne uses your location during outdoor workouts to track distance and pace accurately.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>TriOne uses your location to track outdoor workouts even when the app is in the background.</string>
+    <key>NSMotionUsageDescription</key>
+    <string>TriOne uses motion data to enhance workout tracking and provide accurate metrics.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>location</string>
+        <string>processing</string>
+        <string>remote-notification</string>
+    </array>
+</dict>
+</plist>
+

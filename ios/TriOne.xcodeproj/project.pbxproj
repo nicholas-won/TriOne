@@ -1,0 +1,735 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		017E909A982530033F7A0539 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A830778D35803EA1ED304FE /* SupabaseService.swift */; };
+		04A0A779701F839C23A75348 /* ExperienceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF1CCEFFD6CCEBE3C9FCC2 /* ExperienceView.swift */; };
+		128D287AC7C0789F8D437064 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 35FCDE0D885C6F2682A4B64F /* Supabase */; };
+		1583107AD964192F492B8062 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317340783A9FCF53F4B772CC /* ActivityDetailView.swift */; };
+		2568F6F9CEC8458E1A68858A /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E4F8297766ED1272968415 /* HapticService.swift */; };
+		293410CE222B57FD688F47F8 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = F09A4D517A78BF0D70DDC8DA /* RevenueCat */; };
+		3460B19B254A9FCA206B2312 /* CalibrationResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B0991AA16AD8312ED47C01 /* CalibrationResultView.swift */; };
+		3988C4D450AEBB3E443CD065 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4D8CB0E1E76E129CBE0FE4 /* AuthService.swift */; };
+		3A86699E441B0B7EC5F05DF7 /* TriOneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45081EC6E484392899557B2 /* TriOneApp.swift */; };
+		3D357CCE86D9AFE27647BFAF /* ActiveWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834555B0274DBB47497AA5D /* ActiveWorkoutView.swift */; };
+		4894756619CC1BC788B6D134 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA8BEE638ED5707B3A8119A /* LoginView.swift */; };
+		48F932694885E1C89BEBFF1B /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E2D636D59C3F4B9037AF5A /* WelcomeView.swift */; };
+		4E029B3B5B692D0A75501B2B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E076A3A6933E94F56E5917D /* User.swift */; };
+		5B52E45420F0FB11BFF881B2 /* RacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA88F0747EEE6793F7E23D40 /* RacesView.swift */; };
+		5B89A2CCC359DEF01AB49605 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8587B7C875FEBBFE10FC839C /* LocationService.swift */; };
+		5E0F1113C9727B43396F0710 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCB070D0E2CE201BA4CB99D /* MainTabView.swift */; };
+		6419F92EFC3449DF2CDFF1C7 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1B18376427EEBA3B0F2126 /* NotificationService.swift */; };
+		67AB7E3619A8A745A8CAFB1E /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDA14028C1B34DB6ED400BE7 /* Config.plist */; };
+		6E7DF0C0C7F352C5E850C073 /* GoalSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783CF2BA4D64EEC5A35E9390 /* GoalSelectionView.swift */; };
+		6FB71986CA61149288311021 /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FD12B69C81EC512EA75FB /* CalibrationView.swift */; };
+		7094DD1D5CE1B20172E8A9D0 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0B50DBE94FF96EF5BCB77D /* RegisterView.swift */; };
+		70A55DBEFDA20E170D04782B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C6A39B21D94804C2DBD582 /* APIService.swift */; };
+		7C47E1986EEC926E46F64508 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FA7C7715885D3CB9F6CD62 /* PaywallView.swift */; };
+		7DC68CDE27DB6584D9AF7420 /* OnboardingFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64543B4A20F852E01925084 /* OnboardingFlow.swift */; };
+		7FE3D93E4B2D9BF0444C44DC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E57F43E44F38BDC47847A7FD /* ContentView.swift */; };
+		80A6792D9B6FCADADAD872B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF5B1E6484716612E2586DC2 /* Assets.xcassets */; };
+		83258AE1D0C44B0C88D57E1C /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB06B726828905FB15176FC6 /* SocialView.swift */; };
+		85DDE80035540AF460EEDC09 /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DCBA14CCE1DAE8A29A8CFB /* WorkoutDetailView.swift */; };
+		8D5A05BD4701F3952DE51333 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599C4EE0C0CEC3F8F6538A3 /* HealthKitService.swift */; };
+		947B2C7DE89E193658079D2D /* BaselinesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC7EAB4D4D75D2AB9F69DA /* BaselinesSettingsView.swift */; };
+		99FF56640AE42D1CEE77F930 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4B1253182681BFCFBAF3BE /* StatsView.swift */; };
+		9EEF052557A271F11FE60771 /* BiometricsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531D27CB729EBDB07D923859 /* BiometricsCalculator.swift */; };
+		A04C558EB987303CB00C7C10 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77528704A879C560420AD8B3 /* HistoryViewModel.swift */; };
+		A0A63B5ED865C1EA0467CF41 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B06E6EB4B2A60A665FE98E4 /* HistoryView.swift */; };
+		A7D17B4115A046165DEC315A /* HealthKitSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1D6EBB0078629860168C4C /* HealthKitSettingsView.swift */; };
+		B242A2FFD0587673A552B111 /* HardwareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ADFD6831B32B7AC0C82655 /* HardwareView.swift */; };
+		B36024342B1B40DE9F54F367 /* NotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDECF51A6348541F7756804 /* NotificationSettingsView.swift */; };
+		BB28768FB09C5D606CCAB416 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6853D2CAE5268A63BBA934A /* Race.swift */; };
+		BDAD5187E7DDD124FE00EACE /* WorkoutFeedbackSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C29B83712477B186A35DE4D /* WorkoutFeedbackSheet.swift */; };
+		C01817C5E275A03E67DC1EC4 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902E528FA6BBCC8AAC0666C9 /* ProfileView.swift */; };
+		C6EF0821797AFC0ABD6E3336 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E08EC11B47637B916525A93 /* SubscriptionService.swift */; };
+		C8AABD744039006B9194A0B9 /* HeartRateZonesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB76AB9BB6E2EA1407A36F /* HeartRateZonesView.swift */; };
+		D01D7B00FD35A4B326824F56 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2F94F632A7BB5B9D29DB4B /* Workout.swift */; };
+		D4B0EECEFEC4F5B2C86AE557 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743C872ACDFD509BEB11E42D /* DashboardView.swift */; };
+		DCD0A1F01E78F2C8F9054F68 /* RaceSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1000948A7CDDCBB0EDD6BB1 /* RaceSelectionView.swift */; };
+		DFA520B96637C1661AC7A3C5 /* TrainingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199A6125EC906A8C4D5538FE /* TrainingProgressView.swift */; };
+		E1AF5EFD7AE4F520B4C2D1D7 /* UnitsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA80045FEE199CADD84FE00 /* UnitsSettingsView.swift */; };
+		E569A0E6328512B05EDB661C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FCB3F58ACB90927E25FD8 /* AppState.swift */; };
+		F4AC52A392D4F1F9A1ADC2D7 /* WorkoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F8162C36C8D6EA8D0C5F2 /* WorkoutService.swift */; };
+		F75BAAD479A6CF77B855C06A /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896B320A5B3EAF214B659EF9 /* Theme.swift */; };
+		F9619A183EBB30521AEF65C9 /* SocialAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08DB2CABE6F1DF57838E6DC /* SocialAuthService.swift */; };
+		FB1C38AA4A080EF238590331 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 5FC3670B2EA800713C2294A1 /* GoogleSignIn */; };
+		FE9EB7B955198CFCFDE11C24 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25CD0DA7B54CC4D99680888 /* Config.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0B0B50DBE94FF96EF5BCB77D /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		0E076A3A6933E94F56E5917D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0F2F94F632A7BB5B9D29DB4B /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
+		11CC7EAB4D4D75D2AB9F69DA /* BaselinesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaselinesSettingsView.swift; sourceTree = "<group>"; };
+		16AF1CCEFFD6CCEBE3C9FCC2 /* ExperienceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperienceView.swift; sourceTree = "<group>"; };
+		199A6125EC906A8C4D5538FE /* TrainingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingProgressView.swift; sourceTree = "<group>"; };
+		1A830778D35803EA1ED304FE /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
+		2DA80045FEE199CADD84FE00 /* UnitsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitsSettingsView.swift; sourceTree = "<group>"; };
+		30E4F8297766ED1272968415 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
+		317340783A9FCF53F4B772CC /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
+		3E621BDBCB9C360989961F0B /* TriOne.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TriOne.entitlements; sourceTree = "<group>"; };
+		4B06E6EB4B2A60A665FE98E4 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		4C29B83712477B186A35DE4D /* WorkoutFeedbackSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutFeedbackSheet.swift; sourceTree = "<group>"; };
+		4E08EC11B47637B916525A93 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
+		51E2D636D59C3F4B9037AF5A /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		531D27CB729EBDB07D923859 /* BiometricsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsCalculator.swift; sourceTree = "<group>"; };
+		657FCB3F58ACB90927E25FD8 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		6834555B0274DBB47497AA5D /* ActiveWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveWorkoutView.swift; sourceTree = "<group>"; };
+		6D8F8162C36C8D6EA8D0C5F2 /* WorkoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutService.swift; sourceTree = "<group>"; };
+		702467C9DB262842CA14F2C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		743C872ACDFD509BEB11E42D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		75C6A39B21D94804C2DBD582 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		77528704A879C560420AD8B3 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		783CF2BA4D64EEC5A35E9390 /* GoalSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSelectionView.swift; sourceTree = "<group>"; };
+		7D4D8CB0E1E76E129CBE0FE4 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		8587B7C875FEBBFE10FC839C /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		896B320A5B3EAF214B659EF9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		902E528FA6BBCC8AAC0666C9 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		93ADFD6831B32B7AC0C82655 /* HardwareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardwareView.swift; sourceTree = "<group>"; };
+		A08DB2CABE6F1DF57838E6DC /* SocialAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthService.swift; sourceTree = "<group>"; };
+		A599C4EE0C0CEC3F8F6538A3 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
+		A5B0991AA16AD8312ED47C01 /* CalibrationResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationResultView.swift; sourceTree = "<group>"; };
+		AACB76AB9BB6E2EA1407A36F /* HeartRateZonesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateZonesView.swift; sourceTree = "<group>"; };
+		AB06B726828905FB15176FC6 /* SocialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialView.swift; sourceTree = "<group>"; };
+		AC4B1253182681BFCFBAF3BE /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		B45081EC6E484392899557B2 /* TriOneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriOneApp.swift; sourceTree = "<group>"; };
+		B5FA7C7715885D3CB9F6CD62 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		BA88F0747EEE6793F7E23D40 /* RacesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesView.swift; sourceTree = "<group>"; };
+		BC1B18376427EEBA3B0F2126 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		C25CD0DA7B54CC4D99680888 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		CD1D6EBB0078629860168C4C /* HealthKitSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitSettingsView.swift; sourceTree = "<group>"; };
+		D64543B4A20F852E01925084 /* OnboardingFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlow.swift; sourceTree = "<group>"; };
+		D6853D2CAE5268A63BBA934A /* Race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
+		DDA8BEE638ED5707B3A8119A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		DF5B1E6484716612E2586DC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E1000948A7CDDCBB0EDD6BB1 /* RaceSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSelectionView.swift; sourceTree = "<group>"; };
+		E57F43E44F38BDC47847A7FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EBDECF51A6348541F7756804 /* NotificationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsView.swift; sourceTree = "<group>"; };
+		EDA14028C1B34DB6ED400BE7 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Config.plist; sourceTree = "<group>"; };
+		F6DCBA14CCE1DAE8A29A8CFB /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
+		FA2FD12B69C81EC512EA75FB /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
+		FEF57507B5C216D8FD0C0B7D /* TriOne.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TriOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFCB070D0E2CE201BA4CB99D /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		545C61D3EF2943AA30CC4725 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB1C38AA4A080EF238590331 /* GoogleSignIn in Frameworks */,
+				128D287AC7C0789F8D437064 /* Supabase in Frameworks */,
+				293410CE222B57FD688F47F8 /* RevenueCat in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1C0834E898C04E621FBC4F7C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				531D27CB729EBDB07D923859 /* BiometricsCalculator.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		341D4118612D2D4110CD9F9F /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				FA2FD12B69C81EC512EA75FB /* CalibrationView.swift */,
+				16AF1CCEFFD6CCEBE3C9FCC2 /* ExperienceView.swift */,
+				783CF2BA4D64EEC5A35E9390 /* GoalSelectionView.swift */,
+				93ADFD6831B32B7AC0C82655 /* HardwareView.swift */,
+				D64543B4A20F852E01925084 /* OnboardingFlow.swift */,
+				E1000948A7CDDCBB0EDD6BB1 /* RaceSelectionView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		45F4F03037B1842724FCAF26 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				B5FA7C7715885D3CB9F6CD62 /* PaywallView.swift */,
+			);
+			path = Paywall;
+			sourceTree = "<group>";
+		};
+		47A3492DE58D9664F9D62E15 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D6853D2CAE5268A63BBA934A /* Race.swift */,
+				0E076A3A6933E94F56E5917D /* User.swift */,
+				0F2F94F632A7BB5B9D29DB4B /* Workout.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4E2F59C432BB5EF7AD4504AD /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				902E528FA6BBCC8AAC0666C9 /* ProfileView.swift */,
+				9EF78243C278803FC6D1AB64 /* Settings */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		5DE2C50F82BF1BC86D31D3CF /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				DDA8BEE638ED5707B3A8119A /* LoginView.swift */,
+				0B0B50DBE94FF96EF5BCB77D /* RegisterView.swift */,
+				51E2D636D59C3F4B9037AF5A /* WelcomeView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		7A02B62B2BC6BCC653339279 /* Races */ = {
+			isa = PBXGroup;
+			children = (
+				BA88F0747EEE6793F7E23D40 /* RacesView.swift */,
+			);
+			path = Races;
+			sourceTree = "<group>";
+		};
+		7CC3D6E53531F4248BE443BF /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				743C872ACDFD509BEB11E42D /* DashboardView.swift */,
+				199A6125EC906A8C4D5538FE /* TrainingProgressView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		8E0208EF7A930B6ED0BD8BD3 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				AC4B1253182681BFCFBAF3BE /* StatsView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		962E32A35F07DCCCDDB5832E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FEF57507B5C216D8FD0C0B7D /* TriOne.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9EF78243C278803FC6D1AB64 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				11CC7EAB4D4D75D2AB9F69DA /* BaselinesSettingsView.swift */,
+				CD1D6EBB0078629860168C4C /* HealthKitSettingsView.swift */,
+				AACB76AB9BB6E2EA1407A36F /* HeartRateZonesView.swift */,
+				EBDECF51A6348541F7756804 /* NotificationSettingsView.swift */,
+				2DA80045FEE199CADD84FE00 /* UnitsSettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A05A7724D9633A04CE5C894D /* Workout */ = {
+			isa = PBXGroup;
+			children = (
+				6834555B0274DBB47497AA5D /* ActiveWorkoutView.swift */,
+				F6DCBA14CCE1DAE8A29A8CFB /* WorkoutDetailView.swift */,
+				4C29B83712477B186A35DE4D /* WorkoutFeedbackSheet.swift */,
+			);
+			path = Workout;
+			sourceTree = "<group>";
+		};
+		A2D99C6CEFE7BBFC6995906D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DF5B1E6484716612E2586DC2 /* Assets.xcassets */,
+				EDA14028C1B34DB6ED400BE7 /* Config.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AA38C0886925A72F0C493814 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C25CD0DA7B54CC4D99680888 /* Config.swift */,
+				896B320A5B3EAF214B659EF9 /* Theme.swift */,
+				47A3492DE58D9664F9D62E15 /* Models */,
+				F5C47869E3638D07C304045A /* Services */,
+				1C0834E898C04E621FBC4F7C /* Utils */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		AF7FCC9395FFFF3D83DCDC9C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				657FCB3F58ACB90927E25FD8 /* AppState.swift */,
+				E57F43E44F38BDC47847A7FD /* ContentView.swift */,
+				B45081EC6E484392899557B2 /* TriOneApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C1D7C85B7AA98ED09A9520F2 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				FFCB070D0E2CE201BA4CB99D /* MainTabView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		CE21EFAC2FCD8BBC5FA1C678 /* Calibration */ = {
+			isa = PBXGroup;
+			children = (
+				A5B0991AA16AD8312ED47C01 /* CalibrationResultView.swift */,
+			);
+			path = Calibration;
+			sourceTree = "<group>";
+		};
+		D31E75978965FDA5FD8211B3 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				5DE2C50F82BF1BC86D31D3CF /* Auth */,
+				CE21EFAC2FCD8BBC5FA1C678 /* Calibration */,
+				7CC3D6E53531F4248BE443BF /* Dashboard */,
+				E6EDA0E2B6894F7B39BBDCDA /* History */,
+				C1D7C85B7AA98ED09A9520F2 /* Main */,
+				341D4118612D2D4110CD9F9F /* Onboarding */,
+				45F4F03037B1842724FCAF26 /* Paywall */,
+				4E2F59C432BB5EF7AD4504AD /* Profile */,
+				7A02B62B2BC6BCC653339279 /* Races */,
+				D3FB9BC756D96D0B07D0444A /* Social */,
+				8E0208EF7A930B6ED0BD8BD3 /* Stats */,
+				A05A7724D9633A04CE5C894D /* Workout */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		D3FB9BC756D96D0B07D0444A /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				AB06B726828905FB15176FC6 /* SocialView.swift */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
+		E4D822B9D817E6A1DA08381C /* TriOne */ = {
+			isa = PBXGroup;
+			children = (
+				702467C9DB262842CA14F2C0 /* Info.plist */,
+				3E621BDBCB9C360989961F0B /* TriOne.entitlements */,
+				AF7FCC9395FFFF3D83DCDC9C /* App */,
+				AA38C0886925A72F0C493814 /* Core */,
+				D31E75978965FDA5FD8211B3 /* Features */,
+				A2D99C6CEFE7BBFC6995906D /* Resources */,
+			);
+			path = TriOne;
+			sourceTree = "<group>";
+		};
+		E6EDA0E2B6894F7B39BBDCDA /* History */ = {
+			isa = PBXGroup;
+			children = (
+				317340783A9FCF53F4B772CC /* ActivityDetailView.swift */,
+				4B06E6EB4B2A60A665FE98E4 /* HistoryView.swift */,
+				77528704A879C560420AD8B3 /* HistoryViewModel.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		F5C47869E3638D07C304045A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				75C6A39B21D94804C2DBD582 /* APIService.swift */,
+				7D4D8CB0E1E76E129CBE0FE4 /* AuthService.swift */,
+				30E4F8297766ED1272968415 /* HapticService.swift */,
+				A599C4EE0C0CEC3F8F6538A3 /* HealthKitService.swift */,
+				8587B7C875FEBBFE10FC839C /* LocationService.swift */,
+				BC1B18376427EEBA3B0F2126 /* NotificationService.swift */,
+				A08DB2CABE6F1DF57838E6DC /* SocialAuthService.swift */,
+				4E08EC11B47637B916525A93 /* SubscriptionService.swift */,
+				1A830778D35803EA1ED304FE /* SupabaseService.swift */,
+				6D8F8162C36C8D6EA8D0C5F2 /* WorkoutService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F9B99AA598913F83BC1B93BE = {
+			isa = PBXGroup;
+			children = (
+				E4D822B9D817E6A1DA08381C /* TriOne */,
+				962E32A35F07DCCCDDB5832E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F7A17C4862F2E35436BE0D02 /* TriOne */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4EDB5E423034F07E6B871DB1 /* Build configuration list for PBXNativeTarget "TriOne" */;
+			buildPhases = (
+				06361A79A77301B276A3E70C /* Sources */,
+				949FEDF7673BE1ADBE97436C /* Resources */,
+				545C61D3EF2943AA30CC4725 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TriOne;
+			packageProductDependencies = (
+				5FC3670B2EA800713C2294A1 /* GoogleSignIn */,
+				35FCDE0D885C6F2682A4B64F /* Supabase */,
+				F09A4D517A78BF0D70DDC8DA /* RevenueCat */,
+			);
+			productName = TriOne;
+			productReference = FEF57507B5C216D8FD0C0B7D /* TriOne.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		328A7634A76498A0DEDF478A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					F7A17C4862F2E35436BE0D02 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 8E7F267B359242FCC53B287F /* Build configuration list for PBXProject "TriOne" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F9B99AA598913F83BC1B93BE;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3C6EC5E7990EC9DDB39DAC6A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				C73D2CF7C885160E716F2520 /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				04A55D42908C71B966E3ADB8 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F7A17C4862F2E35436BE0D02 /* TriOne */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		949FEDF7673BE1ADBE97436C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80A6792D9B6FCADADAD872B9 /* Assets.xcassets in Resources */,
+				67AB7E3619A8A745A8CAFB1E /* Config.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		06361A79A77301B276A3E70C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70A55DBEFDA20E170D04782B /* APIService.swift in Sources */,
+				3D357CCE86D9AFE27647BFAF /* ActiveWorkoutView.swift in Sources */,
+				1583107AD964192F492B8062 /* ActivityDetailView.swift in Sources */,
+				E569A0E6328512B05EDB661C /* AppState.swift in Sources */,
+				3988C4D450AEBB3E443CD065 /* AuthService.swift in Sources */,
+				947B2C7DE89E193658079D2D /* BaselinesSettingsView.swift in Sources */,
+				9EEF052557A271F11FE60771 /* BiometricsCalculator.swift in Sources */,
+				3460B19B254A9FCA206B2312 /* CalibrationResultView.swift in Sources */,
+				6FB71986CA61149288311021 /* CalibrationView.swift in Sources */,
+				FE9EB7B955198CFCFDE11C24 /* Config.swift in Sources */,
+				7FE3D93E4B2D9BF0444C44DC /* ContentView.swift in Sources */,
+				D4B0EECEFEC4F5B2C86AE557 /* DashboardView.swift in Sources */,
+				04A0A779701F839C23A75348 /* ExperienceView.swift in Sources */,
+				6E7DF0C0C7F352C5E850C073 /* GoalSelectionView.swift in Sources */,
+				2568F6F9CEC8458E1A68858A /* HapticService.swift in Sources */,
+				B242A2FFD0587673A552B111 /* HardwareView.swift in Sources */,
+				8D5A05BD4701F3952DE51333 /* HealthKitService.swift in Sources */,
+				A7D17B4115A046165DEC315A /* HealthKitSettingsView.swift in Sources */,
+				C8AABD744039006B9194A0B9 /* HeartRateZonesView.swift in Sources */,
+				A0A63B5ED865C1EA0467CF41 /* HistoryView.swift in Sources */,
+				A04C558EB987303CB00C7C10 /* HistoryViewModel.swift in Sources */,
+				5B89A2CCC359DEF01AB49605 /* LocationService.swift in Sources */,
+				4894756619CC1BC788B6D134 /* LoginView.swift in Sources */,
+				5E0F1113C9727B43396F0710 /* MainTabView.swift in Sources */,
+				6419F92EFC3449DF2CDFF1C7 /* NotificationService.swift in Sources */,
+				B36024342B1B40DE9F54F367 /* NotificationSettingsView.swift in Sources */,
+				7DC68CDE27DB6584D9AF7420 /* OnboardingFlow.swift in Sources */,
+				7C47E1986EEC926E46F64508 /* PaywallView.swift in Sources */,
+				C01817C5E275A03E67DC1EC4 /* ProfileView.swift in Sources */,
+				BB28768FB09C5D606CCAB416 /* Race.swift in Sources */,
+				DCD0A1F01E78F2C8F9054F68 /* RaceSelectionView.swift in Sources */,
+				5B52E45420F0FB11BFF881B2 /* RacesView.swift in Sources */,
+				7094DD1D5CE1B20172E8A9D0 /* RegisterView.swift in Sources */,
+				F9619A183EBB30521AEF65C9 /* SocialAuthService.swift in Sources */,
+				83258AE1D0C44B0C88D57E1C /* SocialView.swift in Sources */,
+				99FF56640AE42D1CEE77F930 /* StatsView.swift in Sources */,
+				C6EF0821797AFC0ABD6E3336 /* SubscriptionService.swift in Sources */,
+				017E909A982530033F7A0539 /* SupabaseService.swift in Sources */,
+				F75BAAD479A6CF77B855C06A /* Theme.swift in Sources */,
+				DFA520B96637C1661AC7A3C5 /* TrainingProgressView.swift in Sources */,
+				3A86699E441B0B7EC5F05DF7 /* TriOneApp.swift in Sources */,
+				E1AF5EFD7AE4F520B4C2D1D7 /* UnitsSettingsView.swift in Sources */,
+				4E029B3B5B692D0A75501B2B /* User.swift in Sources */,
+				48F932694885E1C89BEBFF1B /* WelcomeView.swift in Sources */,
+				D01D7B00FD35A4B326824F56 /* Workout.swift in Sources */,
+				85DDE80035540AF460EEDC09 /* WorkoutDetailView.swift in Sources */,
+				BDAD5187E7DDD124FE00EACE /* WorkoutFeedbackSheet.swift in Sources */,
+				F4AC52A392D4F1F9A1ADC2D7 /* WorkoutService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5140F23B3931E657EAB5CE65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		9EB540EDBC4DE8139C7DC0F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TriOne/TriOne.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = TriOne/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.trione.app;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C1C408500AC42B8DA5782AD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TriOne/TriOne.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = TriOne/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.trione.app;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F330F56A81FFC5E301C18648 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4EDB5E423034F07E6B871DB1 /* Build configuration list for PBXNativeTarget "TriOne" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9EB540EDBC4DE8139C7DC0F4 /* Debug */,
+				C1C408500AC42B8DA5782AD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8E7F267B359242FCC53B287F /* Build configuration list for PBXProject "TriOne" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F330F56A81FFC5E301C18648 /* Debug */,
+				5140F23B3931E657EAB5CE65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		04A55D42908C71B966E3ADB8 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		3C6EC5E7990EC9DDB39DAC6A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		C73D2CF7C885160E716F2520 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		35FCDE0D885C6F2682A4B64F /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04A55D42908C71B966E3ADB8 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		5FC3670B2EA800713C2294A1 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C6EC5E7990EC9DDB39DAC6A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		F09A4D517A78BF0D70DDC8DA /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C73D2CF7C885160E716F2520 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 328A7634A76498A0DEDF478A /* Project object */;
+}
